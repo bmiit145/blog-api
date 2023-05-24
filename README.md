@@ -2,6 +2,9 @@
 
 ###  1. make .env file as per .env.example file and give your credential
 ###  2. make the database as per name givin in .env
+###  3. composer update 
+###  3. migrate command
+###  4. serve
 
 
 

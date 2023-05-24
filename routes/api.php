@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AuthController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -14,6 +15,19 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+// Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+//     return $request->user();
+// });
+
+Route::post('/signup', [AuthController::class, 'signup']);
+Route::post('/signin', [AuthController::class, 'login']);
+
+
+Route::middleware('auth:api')->group(function () {
+    Route::post('/posts', [PostController::class, 'create']);
+    Route::put('/posts/{postId}', [PostController::class, 'update']);
+    Route::delete('/posts/{postId}', [PostController::class, 'delete']);
+    Route::get('/posts', [PostController::class, 'index']);
+    Route::get('/posts/{postId}', [PostController::class, 'show']);
+    Route::put('/posts/{postId}/active', [PostController::class, 'toggleActive']);
 });
