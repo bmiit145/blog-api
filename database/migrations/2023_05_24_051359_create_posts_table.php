@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('image');
             $table->string('thumbnail');
             $table->boolean('active')->default(true);
+            $table->integer('user_id');;
             $table->timestamps();
         });
     }

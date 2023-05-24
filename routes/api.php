@@ -1,8 +1,10 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\PostController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,15 +21,19 @@ use Illuminate\Support\Facades\Route;
 //     return $request->user();
 // });
 
+Route::get('/home', function (Request $request) {
+    return response()->json(['error' => "Unauthorised Access"]);
+})->name('home');
+
 Route::post('/signup', [AuthController::class, 'signup']);
 Route::post('/signin', [AuthController::class, 'login']);
 
 
 Route::middleware('auth:api')->group(function () {
-    Route::post('/posts', [PostController::class, 'create']);
-    Route::put('/posts/{postId}', [PostController::class, 'update']);
-    Route::delete('/posts/{postId}', [PostController::class, 'delete']);
     Route::get('/posts', [PostController::class, 'index']);
+    Route::post('/posts', [PostController::class, 'create']);
+    Route::post('/posts/{postId}', [PostController::class, 'update']);
+    Route::delete('/posts/{postId}', [PostController::class, 'delete']);
     Route::get('/posts/{postId}', [PostController::class, 'show']);
     Route::put('/posts/{postId}/active', [PostController::class, 'toggleActive']);
 });

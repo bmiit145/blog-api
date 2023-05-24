@@ -31,6 +31,7 @@ class PostController extends Controller
         $post->description = $validatedData['description'];
         $post->image = $imagePath;
         $post->thumbnail = $thumbnailPath;
+        $post -> user_id = Auth::id();
         $post->save();
 
         // Return response
@@ -40,6 +41,7 @@ class PostController extends Controller
     // update the post
     public function update(Request $request, $postId)
     {
+        // dd($request->all());
         // Validate input
         $validatedData = $request->validate([
             'title' => 'required|string',
@@ -49,7 +51,7 @@ class PostController extends Controller
         ]);
 
         // Find post by ID
-        $post = Post::findOrFail($postId);
+        $post = Post::find($postId);
 
         // Update post data
         $post->title = $validatedData['title'];
@@ -75,9 +77,9 @@ class PostController extends Controller
     public function delete($postId)
     {
         // Find post by ID
-        $post = Post::findOrFail($postId);
+        $post = Post::find($postId);
 
-        // Delete post images
+        // Delete images
         Storage::delete($post->image);
         Storage::delete($post->thumbnail);
 
@@ -93,7 +95,7 @@ class PostController extends Controller
     public function toggleActive($postId)
     {
         // Find post by ID
-        $post = Post::findOrFail($postId);
+        $post = Post::find($postId);
 
         // Toggle active status
         $post->active = !$post->active;
@@ -107,6 +109,7 @@ class PostController extends Controller
     public function index()
     {
         // Get all posts of the logged-in user
+        // dd(Auth::user());
         $posts = Post::where('user_id', Auth::id())->get();
 
         // Return response with posts
@@ -117,7 +120,7 @@ class PostController extends Controller
     public function show($postId)
     {
         // Find post by ID
-        $post = Post::findOrFail($postId);
+        $post = Post::find($postId);
 
         // Return response with post details
         return response()->json($post);

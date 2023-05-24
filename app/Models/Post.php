@@ -15,5 +15,6 @@ class Post extends Model
         'image',
         'thumbnail',
         'active',
+        'user_id',
     ];
 }
